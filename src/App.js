@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-
 import './App.css';
 
 function App() {
@@ -9,7 +8,6 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const apiKey = '94570cb4c921d4e43f648250217e0c07';
 
-  // Função para buscar o clima com base na localidade
   const getWeather = async () => {
     setIsLoading(true);
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}&units=metric`;
@@ -22,6 +20,10 @@ function App() {
     setIsLoading(false);
   };
 
+  const handleInputChange = (e) => {
+    setLocation(e.target.value);
+  };
+
   return (
     <div className="App">
       <div className="container">
@@ -31,7 +33,8 @@ function App() {
             type="text"
             placeholder="Enter location..."
             value={location}
-            onChange={(e) => setLocation(e.target.value)}
+            onChange={handleInputChange}
+            autoComplete="on"
           />
           <button onClick={getWeather} disabled={isLoading}>
             {isLoading ? 'Loading...' : 'Get Weather'}
@@ -45,6 +48,19 @@ function App() {
             </div>
           )}
         </div>
+      </div>
+      {/* Animation of Rain */}
+      <div className="rain-animation">
+        {[...Array(100)].map((_, index) => (
+          <div
+            key={index}
+            className="drop"
+            style={{
+              left: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random()}s`
+            }}
+          />
+        ))}
       </div>
     </div>
   );
